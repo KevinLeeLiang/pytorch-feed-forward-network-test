@@ -62,14 +62,16 @@ print(net)
 
 输出：
 
-    Net(
-      (conv1): Conv2d(1, 6, kernel_size=(5, 5), stride=(1, 1))
-      (conv2): Conv2d(6, 16, kernel_size=(5, 5), stride=(1, 1))
-      (fc1): Linear(in_features=400, out_features=120, bias=True)
-      (fc2): Linear(in_features=120, out_features=84, bias=True)
-      (fc3): Linear(in_features=84, out_features=10, bias=True)
-    )
-    
+```
+Net(
+  (conv1): Conv2d(1, 6, kernel_size=(5, 5), stride=(1, 1))
+  (conv2): Conv2d(6, 16, kernel_size=(5, 5), stride=(1, 1))
+  (fc1): Linear(in_features=400, out_features=120, bias=True)
+  (fc2): Linear(in_features=120, out_features=84, bias=True)
+  (fc3): Linear(in_features=84, out_features=10, bias=True)
+)
+``` 
+
 我们只需要定义 `forward` 函数，`backward`函数会在使用`autograd`时自动定义，`backward`函数用来计算导数。我们可以在 `forward` 函数中使用任何针对张量的操作和计算。
 
 一个模型的可学习参数可以通过`net.parameters()`返回   
@@ -80,15 +82,19 @@ print(net)
 
 输出：
 
-    10
-    torch.Size([6, 1, 5, 5])
-    
+```
+10
+torch.Size([6, 1, 5, 5])
+```
+
 让我们尝试一个随机的32x32的输入。注意:这个网络(LeNet）的期待输入是32x32的张量。如果使用MNIST数据集来训练这个网络，要把图片大小重新调整到32x32。
 
-    input = torch.randn(1, 1, 32, 32)
-    out = net(input)
-    print(out)
-    
+```
+input = torch.randn(1, 1, 32, 32)
+out = net(input)
+print(out)
+```
+
 输出：
 
     tensor([[ 0.0399, -0.0856,  0.0668,  0.0915,  0.0453, -0.0680, -0.1024,  0.0493, -0.1043, -0.1267]], grad_fn=<AddmmBackward>)
