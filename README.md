@@ -19,7 +19,7 @@
 
 ##定义网络
 让我们定义这样一个网络：
-    ''' python
+    ''' python  
     import torch
     import torch.nn as nn
     import torch.nn.functional as F
