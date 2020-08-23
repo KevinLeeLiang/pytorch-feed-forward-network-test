@@ -18,10 +18,12 @@
   ·更新网络的权重，一般使用一个简单的规则：`weight = weight - learning_rate * gradient`
 
 ##定义网络
+
 让我们定义这样一个网络：
     
-``` 
+    ```python 
     import torch
+    ```
     import torch.nn as nn
     import torch.nn.functional as F
 
