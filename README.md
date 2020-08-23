@@ -6,7 +6,7 @@
 可以使用`torch.nn`包来构建神经网络.
 我们已经介绍了`autograd`包，`nn`包则依赖于`autograd`包来定义模型并对它们求导。一个`nn.Module`包含各个层和一个`forward(input)`方法，该方法返回`output`。
 例如，下面这个神经网络可以对数字进行分类：  
-![LeNet-feed-forward-network](https://pytorch.org/tutorials/_images/mnist.png)
+<div align=center>![LeNet-feed-forward-network](https://pytorch.org/tutorials/_images/mnist.png)
 
 一个神经网络的典型训练过程如下：
 
