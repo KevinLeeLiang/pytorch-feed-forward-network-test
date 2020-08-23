@@ -164,10 +164,12 @@ tensor(1.0263, grad_fn=<MseLossBackward>)
 
 现在，如果使用`loss`的`.grad_fn`属性跟踪反向传播过程，会看到计算图如下：
 
-    input -> conv2d -> relu -> maxpool2d -> conv2d -> relu -> maxpool2d
-          -> view -> linear -> relu -> linear -> relu -> linear
-          -> MSELoss
-          -> loss
+```python
+input -> conv2d -> relu -> maxpool2d -> conv2d -> relu -> maxpool2d
+      -> view -> linear -> relu -> linear -> relu -> linear
+      -> MSELoss
+      -> loss
+```
           
 所以，当我们调用`loss.backward()`,整张图开始关于`loss`微分，图中所有设置了`requires_grad=True`的张量的`.grad`属性累积着梯度张量。
 
