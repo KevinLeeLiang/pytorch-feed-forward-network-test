@@ -3,6 +3,6 @@
 
 参考[神经网络](https://pytorch.apachecn.org/docs/1.4/blitz/neural_networks_tutorial.html)    
 
-可以使用'torch.nn'包来构建神经网络.
-我们已经介绍了'autograd'包，'nn'包则依赖于'autograd'包来定义模型并对它们求导。一个'nn.Module'包含各个层和一个'forward(input)'方法，该方法返回'output'。
+可以使用`torch.nn`包来构建神经网络.
+我们已经介绍了`autograd`包，`nn`包则依赖于`autograd`包来定义模型并对它们求导。一个`nn.Module`包含各个层和一个`forward(input)`方法，该方法返回`output`。
 例如，下面这个神经网络可以对数字进行分类：
