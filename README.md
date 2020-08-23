@@ -21,6 +21,11 @@
 
 让我们定义这样一个网络：
     
+    ```cpp
+    int main(){
+        return 1;
+    }
+    
     ```  
     import torch
     import torch.nn as nn
