@@ -21,7 +21,7 @@
 
 让我们定义这样一个网络：
     
-    ```cpp
+  ```cpp
     int main(){
         return 1;
     }
