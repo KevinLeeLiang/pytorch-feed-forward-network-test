@@ -109,11 +109,11 @@
 
 ### 复习：
 
-* ·torch.Tensor· - 一个多维数组，支持诸如`backward()`等的自动求导操作，同时也保存了张量的梯度。
+* `torch.Tensor` - 一个多维数组，支持诸如`backward()`等的自动求导操作，同时也保存了张量的梯度。
 
-* `nn.Modul`e - 神经网络模块。是一种方便封装参数的方式，具有将参数移动到GPU、导出、加载等功能。
+* `nn.Module` - 神经网络模块。是一种方便封装参数的方式，具有将参数移动到GPU、导出、加载等功能。
 
-* `nn.Paramete`r - 张量的一种，当它作为一个属性分配给一个`Module`时，它会被自动注册为一个参数。
+* `nn.Parameter` - 张量的一种，当它作为一个属性分配给一个`Module`时，它会被自动注册为一个参数。
 
 * `autograd.Function` - 实现了自动求导前向和反向传播的定义，每个`Tensor`至少创建一个`Function`节点，该节点连接到创建`Tensor`的函数并对其历史进行编码。
 
@@ -214,7 +214,8 @@ nn包中有很多不同的[损失函数](https://pytorch.org/docs/stable/nn.html
     for f in net.parameters():
         f.data.sub_(f.grad.data * learning_rate)Copy
         
-然而，在使用神经网络时，可能希望使用各种不同的更新规则，如SGD、Nesterov-SGD、Adam、RMSProp等。为此，我们构建了一个较小的包`torch.optim`，它实现了所有的这些方法。使用它很简单：
+然而，在使用神经网络时，可能希望使用各种不同的更新规则，如SGD、Nesterov-SGD、Adam、RMSProp等。为此，我们构建了一个较小的包`torch.optim`，它实现了所有的这些方法。使用它很简单：  
+    
     import torch.optim as optim
     
     # 创建优化器(optimizer）
@@ -229,4 +230,4 @@ nn包中有很多不同的[损失函数](https://pytorch.org/docs/stable/nn.html
     
 注意：
 
-观察梯度缓存区是如何使用`optimizer.zero_grad()`手动清零的。这是因为梯度是累加的，正如前面[反向传播章节](## 反向传播)叙述的那样。
+观察梯度缓存区是如何使用`optimizer.zero_grad()`手动清零的。这是因为梯度是累加的，正如前面[反向传播章节](反向传播)叙述的那样。
