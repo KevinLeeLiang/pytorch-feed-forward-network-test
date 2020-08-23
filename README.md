@@ -62,7 +62,7 @@ print(net)
 
 输出：
 
-```
+```python
 Net(
   (conv1): Conv2d(1, 6, kernel_size=(5, 5), stride=(1, 1))
   (conv2): Conv2d(6, 16, kernel_size=(5, 5), stride=(1, 1))
@@ -76,9 +76,11 @@ Net(
 
 一个模型的可学习参数可以通过`net.parameters()`返回   
 
-    params = list(net.parameters())
-    print(len(params))
-    print(params[0].size())  # conv1's .weight
+```python
+params = list(net.parameters())
+print(len(params))
+print(params[0].size())  # conv1's .weight   
+```
 
 输出：
 
@@ -89,7 +91,7 @@ torch.Size([6, 1, 5, 5])
 
 让我们尝试一个随机的32x32的输入。注意:这个网络(LeNet）的期待输入是32x32的张量。如果使用MNIST数据集来训练这个网络，要把图片大小重新调整到32x32。
 
-```
+```python
 input = torch.randn(1, 1, 32, 32)
 out = net(input)
 print(out)
@@ -97,13 +99,17 @@ print(out)
 
 输出：
 
-    tensor([[ 0.0399, -0.0856,  0.0668,  0.0915,  0.0453, -0.0680, -0.1024,  0.0493, -0.1043, -0.1267]], grad_fn=<AddmmBackward>)
+```python
+tensor([[ 0.0399, -0.0856,  0.0668,  0.0915,  0.0453, -0.0680, -0.1024,  0.0493, -0.1043, -0.1267]], grad_fn=<AddmmBackward>)
+```
     
 清零所有参数的梯度缓存，然后进行随机梯度的反向传播：
 
-    net.zero_grad()
-    out.backward(torch.randn(1, 10))
-    
+```python
+net.zero_grad()
+out.backward(torch.randn(1, 10))
+```
+
 >注意：
 
 >`torch.nn`只支持小批量处理(mini-batches）。整个`torch.nn`包只支持小批量样本的输入，不支持单个样本的输入。
@@ -140,18 +146,21 @@ nn包中有很多不同的[损失函数](https://pytorch.org/docs/stable/nn.html
 
 例如：
 
-```
-    output = net(input)
-    target = torch.randn(10)  # 本例子中使用模拟数据
-    target = target.view(1, -1)  # 使目标值与数据值尺寸一致
-    criterion = nn.MSELoss()
-    
-    loss = criterion(output, target)
-    print(loss)
+```python
+output = net(input)
+target = torch.randn(10)  # 本例子中使用模拟数据
+target = target.view(1, -1)  # 使目标值与数据值尺寸一致
+criterion = nn.MSELoss()
+
+loss = criterion(output, target)
+print(loss)
 ```
 
 输出：
-    tensor(1.0263, grad_fn=<MseLossBackward>)
+
+```python
+tensor(1.0263, grad_fn=<MseLossBackward>)
+```
 
 现在，如果使用`loss`的`.grad_fn`属性跟踪反向传播过程，会看到计算图如下：
 
@@ -164,38 +173,46 @@ nn包中有很多不同的[损失函数](https://pytorch.org/docs/stable/nn.html
 
 为了说明这一点，让我们向后跟踪几步：
 
-    print(loss.grad_fn)  # MSELoss
-    print(loss.grad_fn.next_functions[0][0])  # Linear
-    print(loss.grad_fn.next_functions[0][0].next_functions[0][0])  # ReLU
+```python
+print(loss.grad_fn)  # MSELoss
+print(loss.grad_fn.next_functions[0][0])  # Linear
+print(loss.grad_fn.next_functions[0][0].next_functions[0][0])  # ReLU
+```
     
 输出：
 
-    <MseLossBackward object at 0x7f94c821fdd8>
-    <AddmmBackward object at 0x7f94c821f6a0>
-    <AccumulateGrad object at 0x7f94c821f6a0>
-    
+```python
+<MseLossBackward object at 0x7f94c821fdd8>
+<AddmmBackward object at 0x7f94c821f6a0>
+<AccumulateGrad object at 0x7f94c821f6a0>
+```
+
 ## 反向传播
 
 我们只需要调用`loss.backward()`来反向传播误差。我们需要清零现有的梯度，否则梯度将会与已有的梯度累加。
 
 现在，我们将调用`loss.backward()`，并查看conv1层的偏置(bias）在反向传播前后的梯度。
 
-    net.zero_grad()     # 清零所有参数(parameter）的梯度缓存
-    
-    print('conv1.bias.grad before backward')
-    print(net.conv1.bias.grad)
-    
-    loss.backward()
-    
-    print('conv1.bias.grad after backward')
-    print(net.conv1.bias.grad)
+```python
+net.zero_grad()     # 清零所有参数(parameter）的梯度缓存
+
+print('conv1.bias.grad before backward')
+print(net.conv1.bias.grad)
+
+loss.backward()
+
+print('conv1.bias.grad after backward')
+print(net.conv1.bias.grad)
+```
     
 输出：
 
-    conv1.bias.grad before backward
-    tensor([0., 0., 0., 0., 0., 0.])
-    conv1.bias.grad after backward
-    tensor([ 0.0084,  0.0019, -0.0179, -0.0212,  0.0067, -0.0096])
+```python
+conv1.bias.grad before backward
+tensor([0., 0., 0., 0., 0., 0.])
+conv1.bias.grad after backward
+tensor([ 0.0084,  0.0019, -0.0179, -0.0212,  0.0067, -0.0096])
+```
     
 现在，我们已经见到了如何使用损失函数。
 
@@ -215,23 +232,27 @@ nn包中有很多不同的[损失函数](https://pytorch.org/docs/stable/nn.html
 
 我们可以使用简单的python代码来实现:
 
-    learning_rate = 0.01
-    for f in net.parameters():
-        f.data.sub_(f.grad.data * learning_rate)Copy
+```python
+learning_rate = 0.01
+for f in net.parameters():
+    f.data.sub_(f.grad.data * learning_rate)Copy
+```
         
 然而，在使用神经网络时，可能希望使用各种不同的更新规则，如SGD、Nesterov-SGD、Adam、RMSProp等。为此，我们构建了一个较小的包`torch.optim`，它实现了所有的这些方法。使用它很简单：  
-    
-    import torch.optim as optim
-    
-    # 创建优化器(optimizer）
-    optimizer = optim.SGD(net.parameters(), lr=0.01)
-    
-    # 在训练的迭代中：
-    optimizer.zero_grad()   # 清零梯度缓存
-    output = net(input)
-    loss = criterion(output, target)
-    loss.backward()
-    optimizer.step()    # 更新参数
+
+```python
+import torch.optim as optim
+
+# 创建优化器(optimizer）
+optimizer = optim.SGD(net.parameters(), lr=0.01)
+
+# 在训练的迭代中：
+optimizer.zero_grad()   # 清零梯度缓存
+output = net(input)
+loss = criterion(output, target)
+loss.backward()
+optimizer.step()    # 更新参数
+```
     
 注意：
 
